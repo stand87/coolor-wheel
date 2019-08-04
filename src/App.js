@@ -1,24 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import styled from 'styled-components';
+
+import ColorWheel from './components/ColorWheel';
+
+const Content = styled.div`
+  height:100vh;
+  position:relative;
+  display:flex;
+  background:white;
+  justify-content:center;
+  align-items:center;
+`;
 
 function App() {
+  const [segments, setSegments] = useState(3);
+
+  const onRangeChange = (event) => {
+    setSegments(event.currentTarget.value);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <input type="range" onChange={onRangeChange} min="3" max="36" value={segments} />
+      <Content>
+        <ColorWheel segments={segments} size={800}/>
+      </Content>
     </div>
   );
 }
