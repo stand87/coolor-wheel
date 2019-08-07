@@ -28,9 +28,23 @@ const useStyle = makeStyles((theme) => ({
 function App() {
   const classes = useStyle();
   const [segments, setSegments] = useState(6);
+  const [saturation, setSaturation] = useState(1);
+  const [lightness, setLightness] = useState(50);
 
-  const onRangeChange = (event, value) => {
-    setSegments(value);
+  const onSegmentsChange = (event, value) => setSegments(value);
+  const onSaturationChange = (event, value) => setSaturation(value);
+  const onLightnessChange = (event, value) => setLightness(value);
+
+  const getColorWheels = () => {
+    const colorWheels = [];
+    let size = 1000;
+    let sat = 90;
+    for (let index = 0; index < saturation; index++) {
+      colorWheels.push(<ColorWheel key={index} index={index} segments={segments} size={size} saturation={sat} lightness={lightness} />);
+      size = size - 100;
+      sat = sat - 10;
+    }
+    return colorWheels;
   };
 
   return (
@@ -48,7 +62,7 @@ function App() {
             Segments
             <Slider
               defaultValue={segments}
-              onChange={onRangeChange}
+              onChange={onSegmentsChange}
               getAriaValueText={(value) => value}
               aria-labelledby="discrete-slider"
               valueLabelDisplay="auto"
@@ -57,9 +71,33 @@ function App() {
               min={6}
               max={30}
             />
+            Saturation
+            <Slider
+              defaultValue={saturation}
+              onChange={onSaturationChange}
+              getAriaValueText={(value) => value}
+              aria-labelledby="discrete-slider"
+              valueLabelDisplay="auto"
+              step={1}
+              marks
+              min={1}
+              max={10}
+            />
+            Lightness
+            <Slider
+              defaultValue={lightness}
+              onChange={onLightnessChange}
+              getAriaValueText={(value) => value}
+              aria-labelledby="discrete-slider"
+              valueLabelDisplay="auto"
+              step={1}
+              marks
+              min={1}
+              max={100}
+            />
           </Grid>
           <Grid item xs={8} container justify='center' alignItems='center'>
-            <ColorWheel segments={segments} size={800}/>
+            {getColorWheels()}
           </Grid>
         </Grid>
         <Grid container spacing={5}>

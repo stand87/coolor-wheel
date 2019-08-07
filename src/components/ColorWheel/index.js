@@ -4,7 +4,8 @@ import { makeStyles } from '@material-ui/styles';
 import Segment from './Segment';
 
 const useStyles = makeStyles((theme) => ({
-  container: ({size, segments}) => ({
+  container: ({index, size, segments}) => ({
+    zIndex:index,
     position:'absolute',
     height:size / 3 + segments * 8,
     width:size / 3 + segments * 8,
@@ -13,29 +14,26 @@ const useStyles = makeStyles((theme) => ({
     justifyContent:'center',
     alignItems:'center',
     overflow:'hidden',
-    '&::after': {
-      content:'""',
-      height:size / 6 + segments * 8,
-      width:size / 6 + segments * 8,
-      borderRadius:'100%',
-      background:'white',
-      zIndex:1,
-    }
+    // '&::after': {
+    //   content:'""',
+    //   height:size / 10 + segments * 8,
+    //   width:size / 10 + segments * 8,
+    //   borderRadius:'100%',
+    //   background:'white',
+    //   zIndex:index + 1,
+    // }
   })
 }));
 
-const DEFAULT_SATURATION = 80;
-const DEFAULT_LIGHTNESS = 50;
-
-function ColorWheel({segments, size}) {
-  const classes = useStyles({segments, size});
+function ColorWheel({index, segments, size, saturation, lightness}) {
+  const classes = useStyles({index, segments, size});
 
   const getColors = () => {
     const colors = [];
     let angle = 0;
     for (let index = 0; index < segments; index++) {
       angle = angle + (360 / segments);
-      colors.push([angle, DEFAULT_SATURATION, DEFAULT_LIGHTNESS]);
+      colors.push([angle, saturation, lightness]);
     }
     return colors;
   };

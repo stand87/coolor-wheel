@@ -2,8 +2,8 @@ import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles((theme) => ({
-  container: ({hipotenuse, cord, hue}) => ({
-    height:hipotenuse,
+  container: ({hypotenuse, cord, hue}) => ({
+    height:hypotenuse,
     width:cord,
     position:'absolute',
     top:'50%',
@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
     transform:'scale(0.98)',
     clipPath:'polygon(50% 0%, 0% 100%, 100% 100%)',
     '&::before': {
+      cursor:'pointer',
       content:'""',
       height:'100%',
       width:'100%',
@@ -30,20 +31,31 @@ const useStyles = makeStyles((theme) => ({
   })
 }));
 
-function Segment(props) {
-  const [hue, saturation, lightness] = props.hsl;
-  const radians = props.angle * (Math.PI/180);
-  const cord = (2 * props.radius) * Math.sin(radians / 2);
-  const y = Math.pow(cord / 2, 2);
-  const r = Math.pow(props.radius, 2);
-  const hipotenuse = Math.sqrt(r - y);
-
-  const classes = useStyles({hipotenuse, cord, hue, saturation, lightness});
+function Segment({hsl, radius, angle}) {
+  const [hue, saturation, lightness] = hsl;
+  const cord = getCordLength(radius, angle);
+  const hypotenuse = getHypotenuse(radius, angle);
+  
+  const classes = useStyles({hypotenuse, cord, hue, saturation, lightness});
   return (
     <div className={classes.container}>
       <div className={classes.polygon}></div>
     </div>
   );
 };
+
+function getCordLength(radius, degrees) {
+  const radians = degrees * (Math.PI/180);
+  return (2 * radius) * Math.sin(radians / 2);
+};
+
+function getHypotenuse(radius, degrees) {
+  const cord = getCordLength(radius, degrees);
+  const opposite = Math.pow(cord / 2, 2);
+  const adjacent = Math.pow(radius, 2);
+
+  return Math.sqrt(adjacent - opposite);
+}
+
 
 export default Segment;
