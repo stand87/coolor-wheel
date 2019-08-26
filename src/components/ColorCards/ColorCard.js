@@ -25,12 +25,13 @@ function ColorCard({selected, index, setSelected}) {
   useEffect(() => {
     if (chroma && selected) {
       setColor(chroma);
-    } else {
-      setChroma(null);
     }
-  }, [chroma, selected, setChroma]);
+  }, [chroma, selected]);
 
-  const onClickCard = () => setSelected(!selected ? index : null);
+  const onClickCard = () => {
+    setChroma(null);
+    setSelected(!selected ? index : null)
+  };
   
   const classes = useStyles({color: color && color.css()});
 

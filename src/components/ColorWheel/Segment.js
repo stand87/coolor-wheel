@@ -40,4 +40,4 @@ function getVertices(radius, degrees) {
   return [opposite + radius, adjacent + radius];
 };
 
-export default Segment;
+export default React.memo(Segment);
